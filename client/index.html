@@ -22,6 +22,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <link href='http://fonts.googleapis.com/css?family=Passion+One:400,700,900' rel='stylesheet' type='text/css'>
 <!--//fonts-->
  <script src="js/responsiveslides.min.js"></script>
+
+ <script src="code.js"></script>
  <script>
     // You can also use "$(window).load(function() {"
     $(function () {
@@ -130,7 +132,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<span class="line"> </span>
 			<h3>Trending from Social Media</h3>
 			<div class="regard">
-				<div class="regard-in">					
+				<div class="regard-in">	
+					
+					<h1>Entities</h1>
+					<button type="button" onclick="fillEntities()">See entities</button>
+					<ul id="entities" />
+
 					<p><a href="#"> about a day ago we replied to </a></p>
 					<p>@danielcook1996 Hi Daniel, we are sorry that we can't get something out to you sooner. If you have any questions regarding...</p>	
 					<a href="#"><span> </span></a>

@@ -22,10 +22,10 @@ const router = express.Router();
 // })
 
 
-router.get("/entities/:id", (req, res, next) => {
+router.get("/entities/:id", (req, res, next) => { 
     try{
         const id = req.params.id
-        const req = axios({
+        axios({
         url: `https://www.wikidata.org/w/api.php?action=parse&page=${id}&format=json`,
         method: 'GET',
         headers: {

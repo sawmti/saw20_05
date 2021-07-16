@@ -10,7 +10,31 @@
 <button type="button" onclick="fillEntities()">See entities</button>
 <label id="lblNombreId">Escriba ID</label>
 <input type="text" id="valorEntity"/>
-<button type="button" id="btnEntidad" name="BOTON" onclick="fillEntitiesValor(document.getElementById('valorEntity').value)">BOTON DEL ASS</button>
+<button type="button" id="btnEntidad" name="BOTON" onclick="fillEntitiesValor(document.getElementById('lstEquipos').value)">BOTON INFORMACION DE EQUIPOS</button>
+<div id="dvComboEquipos">
+    <tr>
+       <td>
+        <select name="select" id="lstEquipos">
+            <option value="Q737753">Universidad de Chile</option>
+            <option value="Q719338" selected>Santiago Wanderers</option>
+            <option value="Q427446">Club Deportivo Universidad Cat&aacute;lica</option>
+          </select>
+       </td>
+    </tr>
+
+    <p id="demo" onclick="myFunction()">Click me to change my HTML content (innerHTML).</p>
+
+<script>
+
+function myFunction() {
+  document.getElementById("demo").innerHTML = "<img alt='' src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/1914_-_Flamengo.jpg/220px-1914_-_Flamengo.jpg'>";
+}
+myFunction();
+
+</script>
+
+</div>
+
 <ul id="entities" />
 
 <!-- <script>

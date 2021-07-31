@@ -1,41 +1,261 @@
 <html>
 <head>
- <title>Example</title>
- <link rel="stylesheet" href="style.css">
- <script src="code.js"></script>
+    <title>Example</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="js/jquery.min.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/helpers.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>	
+    <script src="code.js"></script>
 </head>
 <body>
-    prueba rolavarria
-<h1>Entities</h1>
-<button type="button" onclick="fillEntities()">See entities</button>
-<label id="lblNombreId">Escriba ID</label>
-<input type="text" id="valorEntity"/>
-<button type="button" id="btnEntidad" name="BOTON" onclick="fillEntitiesValor(document.getElementById('lstEquipos').value)">BOTON INFORMACION DE EQUIPOS</button>
-<div id="dvComboEquipos">
-    <tr>
-       <td>
-        <select name="select" id="lstEquipos">
-            <option value="Q737753">Universidad de Chile</option>
-            <option value="Q719338" selected>Santiago Wanderers</option>
-            <option value="Q427446">Club Deportivo Universidad Cat&aacute;lica</option>
-          </select>
-       </td>
-    </tr>
+<div class="container">
+    <h1>Entities</h1>
+    <p id="textoProp"></p>
+    <!-- <button type="button" onclick="fillEntities()">See entities</button>
+    <label id="lblNombreId">Escriba ID</label>
+    <input type="text" id="valorEntity"/> -->
+    
+    <div class="row" id="dvComboEquipos">
+        <div class="col-md-8 margin-top-md">
+            <tr>
+            <td>
+                <select class="form-control" name="select" id="lstEquipos">
+                    <option value="Q737753">Universidad de Chile</option>
+                    <option value="Q719338" selected>Santiago Wanderers</option>
+                    <option value="Q427446">Club Deportivo Universidad Cat&oacute;lica</option>
+                    <option value="Q207373">Colo Colo</option>
+                    <option value="Q642098">Club de Deportes La Serena</option>
+                    <option value="Q2076979">Deportes Antofagasta</option>
+                    <option value="Q758689">Audax Italiano</option>
+                    <option value="Q1129059">Club Deportivo Universidad Cat&aacute;lica</option>
+                    <option value="Q642669">Cobresal</option>
+                </select>
+            </td>
+            </tr>
+        </div>
+        <div class="col-md-4">
+            <button type="button" id="btnEntidad" class="btn btn-primary" name="BOTON" onclick="fillEntitiesValor(document.getElementById('lstEquipos').value)">BOTON INFORMACION DE EQUIPOS</button>
+        </div>
+    </div>
 
-    <p id="demo" onclick="myFunction()">Click me to change my HTML content (innerHTML).</p>
+    <div class="row">
+        <div class="col-md-2 margin-top-md" id="img_team">
+            <img id="tblImgTeam" style="width: 200px;" src="images/no-image.jpg">
+        </div>
+        <div class="col-md-10 padding-left-xl">
+            <h1>Informaci&oacute;n</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button id="idBtnAddWiki" class="btn btn-success" onclick="showForm('add')">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Agregar Info
+            </button>
+            <button id="idBtnEditWiki" class="btn btn-primary" onclick="showForm('edit')">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Editar
+            </button>
+            <input type="hidden" id="mode">
+            <input type="hidden" id="documentID"/>
+            <!-- <button class="btn btn-danger">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                Borrar
+            </button> -->
+        </div>
+    </div>
 
-<script>
+    <form id="wikiForm" class="margin-top-md" style="display: none;">
+        <div class="form-group">
+            <label for="teamId">Equipo ID</label>
+            <input type="text" class="form-control" id="teamId" readonly/>
+        </div>
+        <div class="form-group">
+            <label for="teamName">Logo del Equipo</label>
+            <input type="file" class="form-control" id="imgTeam" name="imgTeam" placeholder="Escribe el nombre del equipo"/>
+        </div>
+        <div class="form-group">
+            <label for="teamName">Nombre Equipo</label>
+            <input type="text" class="form-control" id="teamName" placeholder="Escribe el nombre del equipo"/>
+        </div>
+        <div class="form-group">
+            <label for="inception">Comienzos</label>
+            <input type="text" class="form-control" id="inception" placeholder="Escribe la fecha de sus comienzos"/>
+        </div>
+        <div class="form-group">
+            <label for="officialName">Nombre Oficial</label>
+            <input type="text" class="form-control" id="officialName" placeholder="Escribe el nombre oficial"/>
+        </div>
+        <div class="form-group">
+            <label for="nickname">Apodo</label>
+            <input type="text" class="form-control" id="nickname" placeholder="Escribe el apodo"/>
+        </div>
+        <div class="form-group">
+            <label for="coachName">Entrenador</label>
+            <input type="text" class="form-control" id="coachName" placeholder="Escribe el nombre del entrenador"/>
+        </div>
+        <div class="form-group">
+            <label for="homeVenue">Lugar de Origen</label>
+            <input type="text" class="form-control" id="homeVenue" placeholder="Escribe el lugar de origen"/>
+        </div>
+        <div class="form-group">
+            <label for="ownerOf">Estadio</label>
+            <input type="text" class="form-control" id="ownerOf" placeholder="Escribe el estadio"/>
+        </div>
+        <div class="form-group">
+            <label for="webURL">Web Oficial</label>
+            <input type="text" class="form-control" id="webURL" placeholder="Escribe la web oficial"/>
+        </div>
+        <h5>Datos de ubicación sede</h5>
+        <div class="form-group">
+            <label for="locLatitude">Latitud Mapa</label>
+            <input type="text" class="form-control" id="locLatitude" placeholder="Escribe latitud en el mapa"/>
+        </div>
+        <div class="form-group">
+            <label for="locLongitude">Longitud Mapa</label>
+            <input type="text" class="form-control" id="locLongitude" placeholder="Escribe longitud en el mapa"/>
+        </div>
+        <div class="form-group">
+            <label for="locZoomMap">Zoom Mapa</label>
+            <input type="text" class="form-control" id="locZoomMap" placeholder="Escribe zoom para el mapa"/>
+        </div>
 
-function myFunction() {
-  document.getElementById("demo").innerHTML = "<img alt='' src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/1914_-_Flamengo.jpg/220px-1914_-_Flamengo.jpg'>";
-}
-myFunction();
+        <button type="button" class="btn btn-primary" onclick="saveDataFromAdd()">Guardar</button>
+    </form>
 
-</script>
+    <hr style="color:gainsboro;">
 
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Nombre Equipo: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblTeamName"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Imagenes: </h4>
+        </div>
+        <div id="arrImages" class="col-md-5">
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Comienzo: </h4>
+        </div>
+        <div class="col-md-10">
+            <p class="margin-xs" id="tblInception"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Nombre Oficial: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblOfficialName"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Apodo: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblNickname"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Entrenador: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblCoachName"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Liga: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblLeague"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Lugar de Origen: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblHomeVenue"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Estadio: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblOwnerOf"></p>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Ubicaci&oacute;n Sede: </h4>
+        </div>
+        <div class="col-md-5">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <div class="row margin-top-md">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Web Oficial: </h4>
+        </div>
+        <div class="col-md-5">
+            <p class="margin-xs" id="tblWebURL"></p>
+        </div>
+    </div>
+
+    <hr style="color:gainsboro;">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Comentarios</h1>
+        </div>
+    </div>
+    <hr style="color:gainsboro;">
+
+    <div class="row">
+        <div class="col-md-2">
+            <h4 class="margin-xs">Usuario:</h4>
+        </div>
+        <div class="col-md-1">
+            |
+        </div>
+        <div class="col-md-9">
+            <p class="margin-xs">comentario lorem ipsum</p>
+        </div>
+    </div>
+    <hr style="color:gainsboro;">
+    
 </div>
 
+<div id="wikiTexto" style="display: none;"></div>
 <ul id="entities" />
+
+</body>
 
 <!-- <script>
 

@@ -85,6 +85,7 @@ app.post('', multer({storage: storage}).any(), (req, res ) => {
   let wikiMongo = new WikiMongo({
       teamId: body.teamId,
       //imgTeam: url + '/images/' + req.files[0].filename,
+      imgTeam: body.imgTeam,
       teamName: body.teamName,
       inception: body.inception,
       officialName: body.officialName,
@@ -180,6 +181,17 @@ app.put('/:id', multer({storage: storage}).any(), (req, res) => {
       });
   });
   
+});
+
+app.delete("/:id", (req, res, next) => {
+    try{
+        WikiMongo.deleteOne({ _id: req.params.id }).then(result => {
+            console.log(result);
+            res.status(200).json({ message: "Comentario deleted!" });
+        });
+    }catch(error){
+        console.error(error);
+    }
 });
 
 module.exports = app;

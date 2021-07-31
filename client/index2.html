@@ -12,7 +12,7 @@
     <script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>	
     <script src="code.js"></script>
 </head>
-<body>
+<body onload="initOnload()">
 <div class="container">
     <h1>Entities</h1>
     <p id="textoProp"></p>
@@ -63,10 +63,10 @@
             </button>
             <input type="hidden" id="mode">
             <input type="hidden" id="documentID"/>
-            <!-- <button class="btn btn-danger">
+            <button id="idBtnDeleteWiki" class="btn btn-danger" onclick="deleteDocument()">
                 <i class="fa fa-trash" aria-hidden="true"></i>
                 Borrar
-            </button> -->
+            </button>
         </div>
     </div>
 
@@ -215,7 +215,7 @@
             <h4 class="margin-xs">Ubicaci&oacute;n Sede: </h4>
         </div>
         <div class="col-md-5">
-            <div id="map"></div>
+            <div id="idMap"></div>
         </div>
     </div>
 

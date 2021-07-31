@@ -39,211 +39,246 @@ function fillEntities() {
 }
 // Obtiene eel id, y rellena los valores de la tabla de informacion segun la intancia de mongo DB y Wikidata
 function fillEntitiesValor(id) {
-    getEntitiesValor(id).then(data => {
-        getWikiMongoValues(id).then(mongoData => {
-            console.log(data);
-            console.log(mongoData);
-            
-            if (mongoData.ok) { initDOM(mongoData.wikiMongo) } else {return}
-            const wikiMongoData = mongoData.wikiMongo[0];
-            console.log(wikiMongoData)
-            const wikiTexto = document.getElementById("wikiTexto");
-            const idImgTeam = document.getElementById("tblImgTeam");
-            const idTeam_name = document.getElementById("tblTeamName");
-            const idArrImages = document.getElementById("arrImages");
-            const idInception = document.getElementById("tblInception");
-            const idOfficial_name = document.getElementById("tblOfficialName");
-            const idNickname = document.getElementById("tblNickname")
-            const idCoach_name = document.getElementById("tblCoachName");
-            const idLeague = document.getElementById("tblLeague"); 
-            const idHome_venue = document.getElementById("tblHomeVenue");
-            const idOwner_of = document.getElementById("tblOwnerOf");
-            const idMap = document.getElementById("map");
-            const idWeb_url = document.getElementById("tblWebURL");
-            initChatBox();
-            wikiTexto.innerHTML = data.parse.text["*"]
 
-        // console.log( wikiTexto.querySelector('#P571').querySelector(".wikibase-snakview-value").textContent)
-        // console.log( wikiTexto.querySelector('.wikibase-entitytermsview-aliases-alias').textContent)
-        //console.log(wikiTexto.querySelector('#P1705').querySelector(".wikibase-snakview-value").textContent)
-            let img;
-            let teamName;
-            let arrImages;
-            let inception;
-            let official_name;
-            let nickname;
-            let coach_name;
-            let league;
-            let home_venue;
-            let owner_of;
-            let location;
-            let web_url;
-            let strImage;
-            // console.log(wikiMongoData.imgTeam.data)
-            // console.log(bin2string(wikiMongoData.imgTeam.data))
-            // logo del equipo
-            if (wikiMongoData != undefined && wikiMongoData.imgTeam != null && wikiMongoData.imgTeam != ''){
-                var imagen_Bin_String = bin2string(wikiMongoData.imgTeam.data)
-                idImgTeam.src = `${imagen_Bin_String}`;
-            }
-            else if (wikiTexto.querySelector('#P154') != null){
-                strImage = wikiTexto.querySelector('#P154').querySelector('.image').href;
-                idImgTeam.src = `https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${strImage.substring(strImage.indexOf('File:') + 5)}&width=200`
-            } else {
-                idImgTeam.src = 'images/no-image.jpg'
-            }
-            // Nombre del equipo
-            if (wikiMongoData != undefined && wikiMongoData.teamName != null && wikiMongoData.teamName != ''){
-                teamName = wikiMongoData.teamName
-            }
-            else if (wikiTexto.querySelector('#P1705') != null){
-                teamName = wikiTexto.querySelector('#P1705').querySelector(".wikibase-snakview-value").textContent
-            } else if (wikiTexto.querySelector('.wikibase-entitytermsview-aliases-alias') != null) {
-                teamName = wikiTexto.querySelector('.wikibase-entitytermsview-aliases-alias').textContent
-            } else {
-                teamName = 'NO DATA';
-            }
-            // Imagenes
-            if (data.parse.images.length > 0) {
-                if (idArrImages.firstChild != '') {
-                    idArrImages.innerHTML = '';
+    if (id != '') {
+        getEntitiesValor(id).then(data => {
+            getWikiMongoValues(id).then(mongoData => {
+
+                console.log(data);
+                console.log(mongoData);
+                
+                if (mongoData.ok) { initDOM(mongoData.wikiMongo) } else {return}
+
+                let wikiMongoData = null;
+                
+                wikiMongoData = mongoData.wikiMongo[0];
+
+                console.log(wikiMongoData)
+
+                const wikiTexto = document.getElementById("wikiTexto");
+
+                const idImgTeam = document.getElementById("tblImgTeam");
+                const idTeam_name = document.getElementById("tblTeamName");
+                const idArrImages = document.getElementById("arrImages");
+                const idInception = document.getElementById("tblInception");
+                const idOfficial_name = document.getElementById("tblOfficialName");
+                const idNickname = document.getElementById("tblNickname")
+                const idCoach_name = document.getElementById("tblCoachName");
+                const idLeague = document.getElementById("tblLeague"); 
+                const idHome_venue = document.getElementById("tblHomeVenue");
+                const idOwner_of = document.getElementById("tblOwnerOf");
+                const idMap = document.getElementById("idMap");
+                const idWeb_url = document.getElementById("tblWebURL");
+
+                initChatBox();
+
+                wikiTexto.innerHTML = data.parse.text["*"]
+
+
+            // console.log( wikiTexto.querySelector('#P571').querySelector(".wikibase-snakview-value").textContent)
+            // console.log( wikiTexto.querySelector('.wikibase-entitytermsview-aliases-alias').textContent)
+            //console.log(wikiTexto.querySelector('#P1705').querySelector(".wikibase-snakview-value").textContent)
+
+                let img;
+                let teamName;
+                let arrImages;
+                let inception;
+                let official_name;
+                let nickname;
+                let coach_name;
+                let league;
+                let home_venue;
+                let owner_of;
+                let location;
+                let web_url;
+                let strImage;
+
+                // console.log(wikiMongoData.imgTeam.data)
+                // console.log(bin2string(wikiMongoData.imgTeam.data))
+
+                // logo del equipo
+                if (wikiMongoData != undefined && wikiMongoData.imgTeam != null && wikiMongoData.imgTeam != ''){
+
+                    var imagen_Bin_String = bin2string(wikiMongoData.imgTeam.data)
+                    idImgTeam.src = `${imagen_Bin_String}`;
                 }
-                data.parse.images.forEach(entity => {
+                else if (wikiTexto.querySelector('#P154') != null){
+                    strImage = wikiTexto.querySelector('#P154').querySelector('.image').href;
+                    idImgTeam.src = `https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${strImage.substring(strImage.indexOf('File:') + 5)}&width=200`
+                } else {
+                    idImgTeam.src = 'images/no-image.jpg'
+                }
+
+                // Nombre del equipo
+                if (wikiMongoData != undefined && wikiMongoData.teamName != null && wikiMongoData.teamName != ''){
+                    teamName = wikiMongoData.teamName
+                }
+                else if (wikiTexto.querySelector('#P1705') != null){
+                    teamName = wikiTexto.querySelector('#P1705').querySelector(".wikibase-snakview-value").textContent
+                } else if (wikiTexto.querySelector('.wikibase-entitytermsview-aliases-alias') != null) {
+                    teamName = wikiTexto.querySelector('.wikibase-entitytermsview-aliases-alias').textContent
+                } else {
+                    teamName = 'NO DATA';
+                }
+
+                // Imagenes
+                if (data.parse.images.length > 0) {
+                    if (idArrImages.firstChild != '') {
+                        idArrImages.innerHTML = '';
+                    }
+                    data.parse.images.forEach(entity => {
+                        img = new Image()
+                        img.src = `https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${entity}&width=150`
+                        img.style.marginRight = 5;
+                        idArrImages.appendChild(img);
+                    })
+                } else {
+                    if (idArrImages.firstChild != '') {
+                        idArrImages.innerHTML = '';
+                    }
                     img = new Image()
-                    img.src = `https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${entity}&width=150`
-                    img.style.marginRight = 5;
+                    img.src = 'images/no-image.jpg'
+                    img.style.width = 100;
                     idArrImages.appendChild(img);
-                })
-            } else {
-                if (idArrImages.firstChild != '') {
-                    idArrImages.innerHTML = '';
                 }
-                img = new Image()
-                img.src = 'images/no-image.jpg'
-                img.style.width = 100;
-                idArrImages.appendChild(img);
-            }
 
-            // Comienzos
-            if (wikiMongoData != undefined && wikiMongoData.inception != null && wikiMongoData.inception != ''){
-                inception = wikiMongoData.inception
-            }
-            else if(wikiTexto.querySelector('#P571') != null){
-            inception = wikiTexto.querySelector('#P571').querySelector(".wikibase-snakview-value").textContent
-            } else {
-                inception = 'NO DATA';
-            }
-            // Nombre oficial
-            if (wikiMongoData != undefined && wikiMongoData.officialName != null && wikiMongoData.officialName != ''){
-                official_name = wikiMongoData.officialName
-            }
-            else if(wikiTexto.querySelector('#P1448') != null){
-                official_name = wikiTexto.querySelector('#P1448').querySelector(".wikibase-snakview-value").textContent
-            } else {
-                official_name = 'NO DATA';
-            }
-            // Apodo
-            if (wikiMongoData != undefined && wikiMongoData.nickname != null && wikiMongoData.nickname != ''){
-                nickname = wikiMongoData.nickname
-            }
-            else if(wikiTexto.querySelector('#P1449') != null){
-                nickname = wikiTexto.querySelector('#P1449').querySelector(".wikibase-snakview-value").textContent
-            } else {
-                nickname = 'NO DATA';
-            }
 
-            // Entrenador
-            if (wikiMongoData != undefined && wikiMongoData.coachName != null && wikiMongoData.coachName != ''){
-                coach_name = wikiMongoData.coachName
-            }
-            else if (wikiTexto.querySelector('#P286') != null) {
-            coach_name = wikiTexto.querySelector('#P286').querySelector(".wikibase-snakview-value").querySelector("a").text
-            } else {
-                coach_name = 'NO DATA';
-            }
-            // Liga
-            if (wikiMongoData != undefined && wikiMongoData.league != null && wikiMongoData.league != ''){
-                league = wikiMongoData.league
-            }
-            else if (wikiTexto.querySelector('#P118') != null){
-                league = wikiTexto.querySelector('#P118').querySelector(".wikibase-snakview-value").querySelector("a").text
-            } else {
-                league = 'NO DATA';
-            }
-            // Lugar de Origen
-            if (wikiMongoData != undefined && wikiMongoData.homeVenue != null && wikiMongoData.homeVenue != ''){
-                home_venue = wikiMongoData.homeVenue
-            }
-            else if (wikiTexto.querySelector('#P115') != null){
-                home_venue = wikiTexto.querySelector('#P115').querySelector(".wikibase-snakview-value").querySelector("a").text
-            } else {
-                home_venue = 'NO DATA';
-            }
-            // Estadio
-            if (wikiMongoData != undefined && wikiMongoData.ownerOf != null && wikiMongoData.ownerOf != ''){
-                owner_of = wikiMongoData.ownerOf
-            }
-            else if (wikiTexto.querySelector('#P1830') != null){
-                owner_of = wikiTexto.querySelector('#P1830').querySelector(".wikibase-snakview-value").querySelector("a").text
-            } else {
-                owner_of = 'NO DATA';
-            }
-            // Location
-            if ((wikiMongoData != undefined && wikiMongoData.locLatitude != null && wikiMongoData.locLatitude != '') &&
-            (wikiMongoData != undefined && wikiMongoData.locLongitude != null && wikiMongoData.locLongitude != '') &&
-            (wikiMongoData != undefined && wikiMongoData.locZoomMap != null && wikiMongoData.locZoomMap != '')){
-                let lat = wikiMongoData.locLatitude;
-                let lon = wikiMongoData.locLongitude;
-                let zoom = wikiMongoData.locZoomMap;
-                createMap(lat, lon, zoom, idMap)
-            }
-            else if (wikiTexto.querySelector('#P159') != null
-                && wikiTexto.querySelector('#P159').querySelector('.mw-kartographer-map') != null){
-                    
-                location = wikiTexto.querySelector('#P159').querySelector('.mw-kartographer-map').attributes
-                let zoom = location[6].value;
-                let lat = location[7].value;
-                let lon = location[8].value;
-                createMap(lat, lon, zoom, idMap)
-            } else {
-                idMap.classList.remove(...idMap.classList);
-                idMap.innerHTML = '';
-                idMap.style.width = 20;
-                idMap.style.height = 20;
-            }
-            // Website
-            if (wikiMongoData != undefined && wikiMongoData.webURL != null && wikiMongoData.webURL != ''){
-                web_url = wikiMongoData.webURL
-            }
-            else if (wikiTexto.querySelector('#P856') != null){
-                web_url = wikiTexto.querySelector('#P856').querySelector(".wikibase-snakview-value").querySelector("a").text
-            } else {
-                web_url = 'NO DATA';
-            }
-            
-            idTeam_name.textContent = teamName;
-            idInception.textContent = inception;
-            idOfficial_name.textContent = official_name;
-            idNickname.textContent = nickname;
-            idCoach_name.textContent = coach_name;
-            idLeague.textContent = league;
-            idHome_venue.textContent = home_venue;
-            idOwner_of.textContent = owner_of;
-            idWeb_url.textContent = web_url;
+                // Comienzos
+                if (wikiMongoData != undefined && wikiMongoData.inception != null && wikiMongoData.inception != ''){
+                    inception = wikiMongoData.inception
+                }
+                else if(wikiTexto.querySelector('#P571') != null){
+                inception = wikiTexto.querySelector('#P571').querySelector(".wikibase-snakview-value").textContent
+                } else {
+                    inception = 'NO DATA';
+                }
+
+                // Nombre oficial
+                if (wikiMongoData != undefined && wikiMongoData.officialName != null && wikiMongoData.officialName != ''){
+                    official_name = wikiMongoData.officialName
+                }
+                else if(wikiTexto.querySelector('#P1448') != null){
+                    official_name = wikiTexto.querySelector('#P1448').querySelector(".wikibase-snakview-value").textContent
+                } else {
+                    official_name = 'NO DATA';
+                }
+
+                // Apodo
+                if (wikiMongoData != undefined && wikiMongoData.nickname != null && wikiMongoData.nickname != ''){
+                    nickname = wikiMongoData.nickname
+                }
+                else if(wikiTexto.querySelector('#P1449') != null){
+                    nickname = wikiTexto.querySelector('#P1449').querySelector(".wikibase-snakview-value").textContent
+                } else {
+                    nickname = 'NO DATA';
+                }
+
+
+                // Entrenador
+                if (wikiMongoData != undefined && wikiMongoData.coachName != null && wikiMongoData.coachName != ''){
+                    coach_name = wikiMongoData.coachName
+                }
+                else if (wikiTexto.querySelector('#P286') != null) {
+                coach_name = wikiTexto.querySelector('#P286').querySelector(".wikibase-snakview-value").querySelector("a").text
+                } else {
+                    coach_name = 'NO DATA';
+                }
+
+                // Liga
+                if (wikiMongoData != undefined && wikiMongoData.league != null && wikiMongoData.league != ''){
+                    league = wikiMongoData.league
+                }
+                else if (wikiTexto.querySelector('#P118') != null){
+                    league = wikiTexto.querySelector('#P118').querySelector(".wikibase-snakview-value").querySelector("a").text
+                } else {
+                    league = 'NO DATA';
+                }
+
+                // Lugar de Origen
+                if (wikiMongoData != undefined && wikiMongoData.homeVenue != null && wikiMongoData.homeVenue != ''){
+                    home_venue = wikiMongoData.homeVenue
+                }
+                else if (wikiTexto.querySelector('#P115') != null){
+                    home_venue = wikiTexto.querySelector('#P115').querySelector(".wikibase-snakview-value").querySelector("a").text
+                } else {
+                    home_venue = 'NO DATA';
+                }
+
+                // Estadio
+                if (wikiMongoData != undefined && wikiMongoData.ownerOf != null && wikiMongoData.ownerOf != ''){
+                    owner_of = wikiMongoData.ownerOf
+                }
+                else if (wikiTexto.querySelector('#P1830') != null){
+                    owner_of = wikiTexto.querySelector('#P1830').querySelector(".wikibase-snakview-value").querySelector("a").text
+                } else {
+                    owner_of = 'NO DATA';
+                }
+
+                // Location
+                if ((wikiMongoData != undefined && wikiMongoData.locLatitude != null && wikiMongoData.locLatitude != '') &&
+                (wikiMongoData != undefined && wikiMongoData.locLongitude != null && wikiMongoData.locLongitude != '') &&
+                (wikiMongoData != undefined && wikiMongoData.locZoomMap != null && wikiMongoData.locZoomMap != '')){
+
+                    let lat = wikiMongoData.locLatitude;
+                    let lon = wikiMongoData.locLongitude;
+                    let zoom = wikiMongoData.locZoomMap;
+
+                    createMap(lat, lon, zoom)
+                }
+                else if (wikiTexto.querySelector('#P159') != null
+                    && wikiTexto.querySelector('#P159').querySelector('.mw-kartographer-map') != null){
+                        
+                    location = wikiTexto.querySelector('#P159').querySelector('.mw-kartographer-map').attributes
+
+                    let zoom = location[6].value;
+                    let lat = location[7].value;
+                    let lon = location[8].value;
+
+                    createMap(lat, lon, zoom)
+
+                } else {
+                    idMap.classList.remove(...idMap.classList);
+                    idMap.innerHTML = '';
+                }
+
+                // Website
+                if (wikiMongoData != undefined && wikiMongoData.webURL != null && wikiMongoData.webURL != ''){
+                    web_url = wikiMongoData.webURL
+                }
+                else if (wikiTexto.querySelector('#P856') != null){
+                    web_url = wikiTexto.querySelector('#P856').querySelector(".wikibase-snakview-value").querySelector("a").text
+                } else {
+                    web_url = 'NO DATA';
+                }
+                
+
+                idTeam_name.textContent = teamName;
+                idInception.textContent = inception;
+                idOfficial_name.textContent = official_name;
+                idNickname.textContent = nickname;
+                idCoach_name.textContent = coach_name;
+                idLeague.textContent = league;
+                idHome_venue.textContent = home_venue;
+                idOwner_of.textContent = owner_of;
+                idWeb_url.textContent = web_url;
+            })
         })
-    })
+    }
 }
 // Inciializa el html - botones
 function initDOM(wikiMongo) {
     
     const btnAddWiki = document.getElementById("idBtnAddWiki");
     const btnEditWiki = document.getElementById("idBtnEditWiki");
+    const btnDeleteWiki = document.getElementById("idBtnDeleteWiki")
     if (wikiMongo.length > 0) {
         btnAddWiki.style.display = 'none';
-        btnEditWiki.style.display = 'block'
+        btnEditWiki.style.display = 'inline-block';
+        btnDeleteWiki.style.display = 'inline-block';
     } else {
-        btnAddWiki.style.display = 'block';
-        btnEditWiki.style.display = 'none'
+        btnAddWiki.style.display = 'inline-block';
+        btnEditWiki.style.display = 'none';
+        btnDeleteWiki.style.display = 'none';
     }
 }
 // muestra el formulario o lo oculta
@@ -263,22 +298,19 @@ function showForm(mode) {
 }
 
 // Inciliza un mapa con los de xyz, desde el paa de wiki
-function createMap(lat, lon, zoom, idMap) {
-    idMap.style.width = 200
-    idMap.style.height = 200
-    // Creating map options
+function createMap(lat, lon, zoom) {
+    document.getElementById('idMap').innerHTML = "<div id='map' style='width: 200px; height: 200px;'></div>";
+    // idMap.style.width = 200   
+     // idMap.style.height = 200    
+    // Creating map options    
     var mapOptions = {
         center: [lat, lon],
-        zoom: zoom
-    }
-    
-    // Creating a map object
+        zoom: zoom    }
+    // Creating a map object    
     var map = new L.map('map', mapOptions);
-    
-    // Creating a Layer object
+    // Creating a Layer object    
     var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-    
-    // Adding layer to the map
+    // Adding layer to the map    
     map.addLayer(layer);
     let marker = new L.Marker([lat, lon]);
     marker.addTo(map);
@@ -341,6 +373,10 @@ async function postDataToApiMongoDb(data) {
         body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
     response.json(); // parses JSON response into native JavaScript objects
+   
+    setInterval(() => {
+        window.location.reload();
+    }, 5000);
 }
 
 // actualiza
@@ -355,6 +391,35 @@ async function putDataToApiMongoDb(data) {
         body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
     response.json(); // parses JSON response into native JavaScript objects
+    setInterval(() => {
+        window.location.reload();
+    }, 5000);
+}
+
+async function deleteDocument() {
+    const teamId = document.getElementById("teamId");
+    teamId.value = document.getElementById("lstEquipos").value;
+    getWikiMongoValues(teamId.value).then(mongoData => { 
+        const hiddenDocumentID = document.getElementById("documentID");
+        let data = mongoData.wikiMongo[0]
+        hiddenDocumentID.value = data._id;
+        deleteDocumentFromApiMongoDb();
+    })    
+}
+
+async function deleteDocumentFromApiMongoDb() {
+    const hiddenDocumentID = document.getElementById("documentID")
+    let url = `/api/wikimongo/${hiddenDocumentID.value}`
+    const response = await fetch(url, {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    });
+    response.json(); // parses JSON response into native JavaScript objects
+    setInterval(() => {
+        window.location.reload();
+    }, 5000);
 }
 
 // Si existe el dato en BD, se referescara la informacion en el form
@@ -397,6 +462,19 @@ function bin2string(array){
         result+= (String.fromCharCode(array[i]));
     }
     return result;
+}
+
+function redirect(teamId) {
+    window.location.href = `index2.html?teamId=${teamId}`;
+}
+
+function initOnload() {
+    var url = new URL(window.location.href);
+    var teamId = url.searchParams.get("teamId");
+    if (teamId != undefined && teamId != null && teamId != '') {
+        fillEntitiesValor(teamId)
+        document.getElementById("lstEquipos").value = teamId;
+    }
 }
 
 // no pudimos implemntar

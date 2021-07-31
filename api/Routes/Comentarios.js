@@ -103,7 +103,7 @@ app.put('/:id', (req, res) => {
   });
   
 });
-router.delete("/:id", (req, res, next) => {
+app.delete("/:id", (req, res, next) => {
   try{
     Comentarios.deleteOne({ _id: req.params.id }).then(result => {
           console.log(result);

@@ -14,8 +14,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.14.1
-    - run: npm ci
-    - run: npm test
+    - run: npm ci    
   deploy-webapp:
     needs: [build-test]
     runs-on: ubuntu-latest
